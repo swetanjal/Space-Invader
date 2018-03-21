@@ -7,8 +7,9 @@ white = (255,255,255)
 red = (255,0,0)
 blue = (0,0,255)
 yellow = (255,255,0)
-###################################################
 
+###################################################
+#Each rectangle in the grid is 100 X 75
 #Implement inheritance of character
 #Care must be taken that two aliens are not spawned at the same place
 ###################################################
@@ -21,7 +22,8 @@ class Spaceship():
 		self.x=x
 		self.y=y
 	def draw(self):
-		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
+		pygame.draw.polygon(self.display, self.color, [[(self.x+self.width/2),self.y], [self.x,self.y+self.height], [self.x+self.width,self.y+self.height]])
+		#pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
 ###################################################
 class Alien():
 	def __init__(self, gameDisplay, x, y, death_time, width=100, height=75):
@@ -37,7 +39,8 @@ class Alien():
 
 ###################################################
 class Missile1:
-	def __init__(self, gameDisplay, x, y, width=100, height=75):
+	def __init__(self, gameDisplay, x, y, width=25, height=75):
+		x=x+36
 		self.height=height
 		self.width=width
 		self.x=x
@@ -49,7 +52,8 @@ class Missile1:
 		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
 
 class Missile2:
-	def __init__(self, gameDisplay, x, y, width=100, height=75):
+	def __init__(self, gameDisplay, x, y, width=25, height=75):
+		x=x+36
 		self.height=height
 		self.width=width
 		self.x=x
@@ -60,9 +64,13 @@ class Missile2:
 	def draw(self):
 		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])	
 
+def message_to_screen(msg, color=red):
+	font = pygame.font.SysFont(None, 75)
+	screen_text = font.render(msg, True, color)
+	gameDisplay.blit(screen_text, [275,650])
 ###################################################
 pygame.init()
-gameDisplay = pygame.display.set_mode((800,600))
+gameDisplay = pygame.display.set_mode((800,700))
 clock = pygame.time.Clock()
 
 pygame.display.set_caption('Space Invader')
@@ -85,12 +93,16 @@ while not gameExit:
 			if event.key == pygame.K_q:
 				gameExit = True
 			if event.key == pygame.K_d:
-				change=10
+				change=100
+				if space_ship.x<700:
+					space_ship.x+=change
+				change=0			
 			if event.key == pygame.K_a:
-				change = -10
+				change=-100
+				if space_ship.x>0:
+					space_ship.x+=change
+				change=0			
 		if event.type == pygame.KEYUP:
-			if event.key == pygame.K_d or event.key == pygame.K_a:
-				change=0
 			if event.key == pygame.K_SPACE:
 				missiles1.append(Missile1(gameDisplay, space_ship.x, space_ship.y-75))
 			if event.key == pygame.K_s:
@@ -100,15 +112,9 @@ while not gameExit:
 	i=0
 	while i < (len(aliens)):
 		if timer == aliens[i].death_time:
-			if aliens[i].color == yellow:
-				score+=1
 			aliens.pop(i)
 			i=i-1
 		i=i+1
-	if change<0 and space_ship.x>-10:
-		space_ship.x+=change
-	if change>0 and space_ship.x<710:
-		space_ship.x+=change
 	gameDisplay.fill(white)
 	space_ship.draw()
 	i=0
@@ -136,7 +142,7 @@ while not gameExit:
 				break
 			j=j+1
 		i=i+1
-	print (score)
+	message_to_screen("SCORE: "+str(score))
 	for alien in aliens:
 		alien.draw()
 	for missile in missiles1:
