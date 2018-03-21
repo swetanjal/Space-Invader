@@ -39,7 +39,7 @@ class Alien():
 
 ###################################################
 class Missile1:
-	def __init__(self, gameDisplay, x, y, width=25, height=75):
+	def __init__(self, gameDisplay, x, y, birth_time, width=25, height=75):
 		x=x+36
 		self.height=height
 		self.width=width
@@ -47,12 +47,12 @@ class Missile1:
 		self.y=y
 		self.display=gameDisplay
 		self.color = black
-		self.speed = -2.5
+		self.birth_time = birth_time
 	def draw(self):
 		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
 
 class Missile2:
-	def __init__(self, gameDisplay, x, y, width=25, height=75):
+	def __init__(self, gameDisplay, x, y, birth_time, width=25, height=75):
 		x=x+36
 		self.height=height
 		self.width=width
@@ -60,7 +60,7 @@ class Missile2:
 		self.y=y
 		self.display=gameDisplay
 		self.color = blue
-		self.speed = -5.0
+		self.birth_time = birth_time
 	def draw(self):
 		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])	
 
@@ -104,9 +104,9 @@ while not gameExit:
 				change=0			
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_SPACE:
-				missiles1.append(Missile1(gameDisplay, space_ship.x, space_ship.y-75))
+				missiles1.append(Missile1(gameDisplay, space_ship.x, space_ship.y-75, timer))
 			if event.key == pygame.K_s:
-				missiles2.append(Missile2(gameDisplay, space_ship.x, space_ship.y-75))
+				missiles2.append(Missile2(gameDisplay, space_ship.x, space_ship.y-75, timer))
 	if timer%300 == 0:
 		aliens.append(Alien(gameDisplay, random.choice([0,100,200,300,400,500,600,700]), random.choice([1,0])*75, timer+(30*8)))
 	i=0
@@ -146,10 +146,12 @@ while not gameExit:
 	for alien in aliens:
 		alien.draw()
 	for missile in missiles1:
-		missile.y+=missile.speed
+		if (timer-missile.birth_time)>0 and (timer-missile.birth_time)%30 == 0:
+			missile.y=missile.y - 75
 		missile.draw()
 	for missile in missiles2:
-		missile.y+=missile.speed
+		if (timer-missile.birth_time)>0 and (timer-missile.birth_time)%15 == 0:
+			missile.y=missile.y - 75
 		missile.draw()
 	i=0
 	while i < (len(missiles1)):
