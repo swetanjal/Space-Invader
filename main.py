@@ -124,6 +124,7 @@ while not gameExit:
 				break
 			j=j+1
 		i=i+1
+	i=0
 	while i<len(missiles2):
 		j=0
 		while j<len(aliens):
@@ -148,6 +149,12 @@ while not gameExit:
 	while i < (len(missiles1)):
 		if missiles1[i].y<-100:
 			missiles1.pop(i)
+			i=i-1
+		i=i+1
+	i=0
+	while i < (len(missiles2)):
+		if missiles2[i].y<-100:
+			missiles2.pop(i)
 			i=i-1
 		i=i+1
 	pygame.display.update()
