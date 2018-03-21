@@ -121,7 +121,7 @@ while not gameExit:
 	while i<len(missiles1):
 		j=0
 		while j<len(aliens):
-			if aliens[j].x<missiles1[i].x+missiles1[i].width and missiles1[i].x<aliens[j].x+aliens[j].width and aliens[j].y < missiles1[i].y and missiles1[i].y<aliens[j].y+aliens[j].height:
+			if aliens[j].x<missiles1[i].x+missiles1[i].width and missiles1[i].x<aliens[j].x+aliens[j].width and aliens[j].y == missiles1[i].y:
 				score+=1
 				aliens.pop(j)
 				j=j-1
@@ -134,7 +134,7 @@ while not gameExit:
 	while i<len(missiles2):
 		j=0
 		while j<len(aliens):
-			if aliens[j].x<missiles2[i].x+missiles2[i].width and missiles2[i].x<aliens[j].x+aliens[j].width and aliens[j].y < missiles2[i].y and missiles2[i].y<aliens[j].y+aliens[j].height:
+			if aliens[j].x<missiles2[i].x+missiles2[i].width and missiles2[i].x<aliens[j].x+aliens[j].width and aliens[j].y == missiles2[i].y:
 				aliens[j].death_time=timer+(5*30)
 				aliens[j].color=yellow
 				missiles2.pop(i)
