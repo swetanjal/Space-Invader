@@ -7,6 +7,7 @@ white = (255,255,255)
 red = (255,0,0)
 blue = (0,0,255)
 yellow = (255,255,0)
+green = (0,255,0)
 
 ###################################################
 #Each rectangle in the grid is 100 X 75
@@ -46,7 +47,7 @@ class Missile1:
 		self.x=x
 		self.y=y
 		self.display=gameDisplay
-		self.color = black
+		self.color = green
 		self.birth_time = birth_time
 	def draw(self):
 		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
