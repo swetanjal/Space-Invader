@@ -1,75 +1,18 @@
 import pygame
 import time
 import random
-
-black = (0,0,0)
-white = (255,255,255)
-red = (255,0,0)
-blue = (0,0,255)
-yellow = (255,255,0)
-green = (0,255,0)
-
+from ai_package import *
+from missile_package import *
+from font_package import *
 ###################################################
-#Each rectangle in the grid is 100 X 75
-#Implement inheritance of character
 #Care must be taken that two aliens are not spawned at the same place
 ###################################################
-class Spaceship():
-	def __init__(self, gameDisplay, x, y, width=100, height=75):
-		self.height=height
-		self.width=width
-		self.display=gameDisplay
-		self.color=black
-		self.x=x
-		self.y=y
-	def draw(self):
-		pygame.draw.polygon(self.display, self.color, [[(self.x+self.width/2),self.y], [self.x,self.y+self.height], [self.x+self.width,self.y+self.height]])
-		#pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
-###################################################
-class Alien():
-	def __init__(self, gameDisplay, x, y, death_time, width=100, height=75):
-		self.height=height
-		self.width=width
-		self.display=gameDisplay
-		self.color=red
-		self.x=x
-		self.y=y
-		self.death_time=death_time
-	def draw(self):
-		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
 
-###################################################
-class Missile1:
-	def __init__(self, gameDisplay, x, y, birth_time, width=25, height=75):
-		x=x+36
-		self.height=height
-		self.width=width
-		self.x=x
-		self.y=y
-		self.display=gameDisplay
-		self.color = green
-		self.birth_time = birth_time
-	def draw(self):
-		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])
-
-class Missile2:
-	def __init__(self, gameDisplay, x, y, birth_time, width=25, height=75):
-		x=x+36
-		self.height=height
-		self.width=width
-		self.x=x
-		self.y=y
-		self.display=gameDisplay
-		self.color = blue
-		self.birth_time = birth_time
-	def draw(self):
-		pygame.draw.rect(self.display, self.color, [self.x , self.y , self.width , self.height])	
-
-def message_to_screen(msg, color=red):
+def message_to_screen(msg, color=colors.red):
 	font = pygame.font.SysFont(None, 75)
 	screen_text = font.render(msg, True, color)
 	gameDisplay.blit(screen_text, [275,650])
-###################################################
+
 pygame.init()
 gameDisplay = pygame.display.set_mode((800,700))
 clock = pygame.time.Clock()
@@ -116,7 +59,7 @@ while not gameExit:
 			aliens.pop(i)
 			i=i-1
 		i=i+1
-	gameDisplay.fill(white)
+	gameDisplay.fill(colors.white)
 	space_ship.draw()
 	i=0
 	while i<len(missiles1):
@@ -137,7 +80,7 @@ while not gameExit:
 		while j<len(aliens):
 			if aliens[j].x<missiles2[i].x+missiles2[i].width and missiles2[i].x<aliens[j].x+aliens[j].width and aliens[j].y == missiles2[i].y:
 				aliens[j].death_time=timer+(5*30)
-				aliens[j].color=yellow
+				aliens[j].color=colors.yellow
 				missiles2.pop(i)
 				i=i-1
 				break
