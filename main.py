@@ -145,7 +145,7 @@ while not gameExit:
         while j < len(aliens):
             if detect_collision(aliens[j], missiles2[i]) is True:
                 aliens[j].death_time = timer + (5 * fps)
-                aliens[j].color = colors.yellow
+                aliens[j].img = pygame.image.load('sprites/alien_death.png')
                 missiles2.pop(i)
                 i = i - 1
                 break
