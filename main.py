@@ -13,6 +13,7 @@ from font_package import colors
 block_height = 75
 block_width = 100
 fps = 30
+bg = pygame.image.load("sprites/bg.jpg")
 
 
 def message_to_screen(msg, color=colors.red):
@@ -63,7 +64,7 @@ def destroy_missiles(missile_type):
 
 def update_graphics():
     """This function updates the graphics on the screen by redrawing game objects"""
-    gameDisplay.fill(colors.white)
+    gameDisplay.blit(bg, (0, 0))
     space_ship.draw()
     message_to_screen("SCORE: " + str(score))
     for alien in aliens:
