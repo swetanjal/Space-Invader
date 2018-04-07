@@ -24,8 +24,9 @@ def message_to_screen(msg, color=colors.red):
 
 
 def spawn_alien(aliens):
-    """This function is used to get the location of the new alien to be spawned. Care is taken
-            that two aliens are not at the same location at any instant"""
+    """This function is used to get the location of the new alien to be spawned.
+       Care is taken that two aliens are not at the same location at any
+       instant"""
     x = random.choice([0, 100, 200, 300, 400, 500, 600, 700])
     y = random.choice([1, 0]) * 75
     for alien in aliens:
@@ -35,9 +36,11 @@ def spawn_alien(aliens):
 
 
 def missile_draw(missiles, rate):
-    """This function is used to update the location of missiles and redraw them on the window"""
+    """This function is used to update the location of missiles and redraw
+       them on the window"""
     for missile in missiles:
-        if (timer - missile.birth_time) > 0 and (timer - missile.birth_time) % (30 / rate) == 0:
+        if (timer - missile.birth_time) > 0 and \
+           (timer - missile.birth_time) % (30 / rate) == 0:
             missile.y = missile.y - block_height
         missile.draw()
 
@@ -53,7 +56,8 @@ def destroy_aliens(aliens):
 
 
 def destroy_missiles(missile_type):
-    """This function destroys the missiles of missile_type if they go out of the game screen"""
+    """This function destroys the missiles of missile_type if they go out of the
+       game screen"""
     i = 0
     while i < (len(missile_type)):
         if missile_type[i].y < -block_width:
@@ -63,7 +67,8 @@ def destroy_missiles(missile_type):
 
 
 def update_graphics():
-    """This function updates the graphics on the screen by redrawing game objects"""
+    """This function updates the graphics on the screen by redrawing game
+       objects"""
     gameDisplay.blit(bg, (0, 0))
     space_ship.draw()
     message_to_screen("SCORE: " + str(score))
@@ -76,7 +81,8 @@ def update_graphics():
 
 def detect_collision(alien, missile):
     """This function returns True if alien and missile game objects collide"""
-    if alien.x < missile.x + missile.width and missile.x < alien.x + alien.width and alien.y == missile.y:
+    if alien.x < missile.x + missile.width and \
+       missile.x < alien.x + alien.width and alien.y == missile.y:
         return True
     return False
 
@@ -119,10 +125,12 @@ while not gameExit:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 missiles1.append(
-                    Missile1(gameDisplay, space_ship.x, space_ship.y - block_height, timer))
+                    Missile1(gameDisplay,
+                             space_ship.x, space_ship.y - block_height, timer))
             if event.key == pygame.K_s:
                 missiles2.append(
-                    Missile2(gameDisplay, space_ship.x, space_ship.y - block_height, timer))
+                    Missile2(gameDisplay, space_ship.x,
+                             space_ship.y - block_height, timer))
     if timer % (10 * fps) == 0:
         x, y = spawn_alien(aliens)
         aliens.append(Alien(gameDisplay, x, y, timer + (8 * fps)))
